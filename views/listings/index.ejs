@@ -1,30 +1,54 @@
 <% layout("/layouts/boilerplate") %>
 
-<h3>All Listings</h3>
+<div class="container mt-4">
+    <h3 class="mb-4">All Listings</h3>
 
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-    <% for(let listing of allListings) { %>
-        <a href="/listings/<%= listing._id %>" class="listing-link">
-            <div class="card col">
-                <img src="<%= listing.image ? listing.image : '/images/default.jpg' %>" 
-                     class="card-img-top" 
-                     alt="listing_image" 
-                     style="height: 20rem;"/>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <% for(let listing of allListings) { %>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+                        <div class="position-relative">
+                            <img src="<%= listing.image ? listing.image : '/images/default.jpg' %>" 
+                                 class="card-img-top object-fit-cover" 
+                                 alt="<%= listing.title || 'Property listing' %>"
+                                 style="height: 250px; width: 100%;"/>
+                            
+                            <% if (listing.featured) { %>
+                                <span class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 m-2 rounded">
+                                    Featured
+                                </span>
+                            <% } %>
+                        </div>
 
-                <div class="card-img-overlay">priya</div>
-
-                <div class="card-body">
-                    <p class="card-text">
-                        &#8377; 
-                        <% if (listing.price !== null && listing.price !== undefined) { %>
-                            <%= listing.price.toLocaleString("en-IN") %>
-                        <% } else { %>
-                            Price not available
-                        <% } %>
-                        <i class="tax-info">&nbsp; &nbsp;Atul </i>
-                    </p>
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate"><%= listing.title || 'Untitled Listing' %></h5>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="card-text mb-0 fw-bold text-primary">
+                                    ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : 'Price on request' %>
+                                </p>
+                                <small class="text-muted"><%= listing.location || '' %></small>
+                            </div>
+                            
+                            <p class="card-text text-truncate"><%= listing.description || 'No description available' %></p>
+                        </div>
+                    </a>
                 </div>
             </div>
-        </a>
-    <% } %>
+        <% } %>
+    </div>
 </div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .object-fit-cover {
+        object-fit: cover;
+    }
+</style>

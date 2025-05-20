@@ -65,13 +65,27 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 //create Route
-app.post("/listings", async (req, res)=> {
-    //let (title, description, image, price, country, location) = req.body;
-    //let listing = req.body.listing;
-    const newlisting = new Listing( req.body.listing);
-     await newlisting.save();
-    res.redirect("/Listings");
-}); 
+app.post("/listings", async (req, res) => {
+  try {
+    // Validate required fields
+    if (!req.body.listing) {
+      return res.status(400).render("listings/new", { 
+        error: "Invalid form data format" 
+      });
+    }
+
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    req.flash("success", "Successfully created new listing!");
+    res.redirect(`/listings/${newListing._id}`);
+  } catch (err) {
+    console.error("Error creating listing:", err);
+    res.status(400).render("listings/new", { 
+      error: err.message,
+      formData: req.body.listing // To repopulate form on error
+    });
+  }
+});
 
  //Edit Route
  app.get("/listings/:id/edit", async (req, res) =>{
