@@ -53,7 +53,7 @@ app.get("/",(req, res)=>{
 
 //new Route
 app.get("/listings/new", (req, res) => {
-    res.render("listings/new.ejs");
+    res.render("listings/new.ejs", { error: [] });
 });
 
 

@@ -108,26 +108,21 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label for="location" class="form-label">Location (City/Area)*</label>
-                <input 
-                    name="listing[location]"
-                    id="location"
-                    placeholder="e.g., Mumbai, Bandra West"
-                    type="text"
-                    class="form-control" 
-                    required
-                    pattern="[A-Za-z\s\,]{3,100}"
-                    value="<%= listing.location || '' %>"
-                />
-                <div class="invalid-feedback">
-                    Please provide a valid location (3-100 characters, letters and commas only).
-                </div>
-            </div>
+           <%- include("../partials/header.ejs") %>
 
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg mt-3">Create Listing</button>
-            </div>
+<div class="container mt-5">
+    <div class="row mt-3">
+        <div class="col-8 offset-2">
+
+            <!-- Error alert if error array has content -->
+            <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= error[0] %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% } %>
+
+            <h2 class="mb-4">Create a New Listing</h2>
         </form>
     </div>
 </div>
